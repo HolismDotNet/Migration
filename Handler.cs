@@ -1,5 +1,7 @@
 public class Handler
 {
+    public static string Environment { get; set; }
+
     public static string Organization { get; set; }
 
     public static string OrganizationPrefix { get; set; }
@@ -14,24 +16,19 @@ public class Handler
 
     public static string TableName { get; set; }
 
-    public static string DatabaseDir
+    public static string TableFqn
     {
         get
         {
-            var path = $"/{Organization}/Migration/Dev/{DatabaseName}";
-            if (!Directory.Exists(path))
-            {
-                Directory.CreateDirectory(path);
-            }
-            return path;
+            return $"{DatabaseName}.{TableName}";
         }
     }
 
-    public static string TableDir
+    public static string Dir
     {
         get
         {
-            var path = Path.Combine(DatabaseDir, TableName);
+            var path = $"/{Organization}/Migration/{Environment}";
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);

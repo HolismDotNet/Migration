@@ -8,6 +8,7 @@ var connection = InfraConfig.GetConnectionString("Accounts");
 var masterConnection = Regex.Replace(connection, @"database=.*", "");
 // Logger.LogInfo(masterConnection);
 var databases = Database.Open(masterConnection).Get("show databases");
+Handler.Environment = InfraConfig.GetEnvironmentVariable("Environment");
 Handler.MasterConnection = masterConnection;
 Handler.RepositoryPath = args[0];
 Handler.Organization = args[1];
