@@ -6,5 +6,6 @@ public class TableHandler : Handler
             create table if not exists {TableFqn}
         ";
         File.WriteAllText(Path.Combine(Dir, $"{TableFqn}.sql"), query);
+        new ColumnHandler().Handle();
     }
 }
