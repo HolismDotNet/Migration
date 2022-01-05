@@ -1,2 +1,6 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿global using Holism.Infra;
+global using System.Text.RegularExpressions;
+
+var connection = InfraConfig.GetConnectionString("Accounts");
+var masterConnection = Regex.Replace(connection, @"database=.*", "");
+Logger.LogInfo(masterConnection);
