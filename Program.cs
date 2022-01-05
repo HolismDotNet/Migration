@@ -20,7 +20,7 @@ foreach (DataRow database in databases.Rows)
     {
         continue;
     }
-    Handler.Database = databaseName;
+    Handler.DatabaseName = databaseName;
     // Logger.LogInfo(databaseName);
     new DatabaseHandler().Handle();
 }
