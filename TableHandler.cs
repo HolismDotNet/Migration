@@ -3,10 +3,11 @@ public class TableHandler : Handler
     public void Handle()
     {
         var query = @$"
-            create table if not exists {TableFqn}
+            show create table `{DatabaseName}`.`{TableName}`
         ";
-        File.WriteAllText(Path.Combine(Dir, $"{TableFqn}.sql"), query);
-        new ColumnHandler().Handle();
-        new ForeignKeyHandler().Handle();
+        var creationScript = Database.Open(MasterConnection).Get(query).Rows[0][0].ToString();
+        File.WriteAllText(Path.Combine(Dir, $"{TableFqn}.sql"), creationScript);
+        // new ColumnHandler().Handle();
+        // new ForeignKeyHandler().Handle();
     }
 }
