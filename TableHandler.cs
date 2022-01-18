@@ -9,8 +9,6 @@ public class TableHandler : Handler
         creationScript = Regex.Replace(creationScript, @"ENGINE=InnoDB.*DEFAULT", "ENGINE=InnoDB DEFAULT");
         File.WriteAllText(Path.Combine(Dir, $"{TableFqn}.sql"), creationScript);
         ScriptEnumTable(creationScript);
-        // new ColumnHandler().Handle();
-        // new ForeignKeyHandler().Handle();
     }
 
     public void ScriptEnumTable(string tableScript)
@@ -18,12 +16,18 @@ public class TableHandler : Handler
         var columns = Regex.Matches(tableScript, @"(?<=^\s*\`)[^`]*", RegexOptions.Multiline).OfType<Match>().Select(i => i.Value).ToList().ToCsv();
         if (columns == "Id,Guid,Key,Order")
         {
-            var enumsScripts = new List<string>();
+            var enumScripts = @$"
+insert ignore into `{TableName}` (Id, Guid, `Key`, `Order`)
+values ";
             var data = Database.Open(MasterConnection).Get(@$"select * from `{DatabaseName}`.`{TableName}`");
             foreach (DataRow row in data.Rows)
             {
-                
+                var query = @$"
+({row["Id"].ToString()}, N'{row["Guid"].ToString()}', '{row["Key"].ToString()}',  {(row.IsNull("Order") ? "null" : row["Order"].ToString())}),";                
+                enumScripts += query;
             }
+            enumScripts = enumScripts.Trim().Trim(',');
+            File.WriteAllText(Path.Combine(Dir, $"{TableFqn}.Data.sql"), enumScripts);
         }
     }
 }

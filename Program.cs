@@ -4,6 +4,7 @@ global using Holism.DataAccess;
 global using System.Data;
 global using System.IO;
 global using System.Linq;
+global using System.Collections.Generic;
 
 var connection = InfraConfig.GetConnectionString("Accounts");
 var masterConnection = Regex.Replace(connection, @"database=.*", "");
