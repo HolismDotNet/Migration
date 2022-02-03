@@ -1,10 +1,17 @@
-﻿global using Holism.Infra;
+﻿global using System;
+global using Holism.Infra;
+global using System.Text.Json;
+global using System.Dynamic;
+global using System.Net.Http;
+global using System.Net;
+global using System.Collections.Generic;
+global using System.Net.Http.Headers;
+global using System.Linq;
+global using System.IO;
 global using System.Text.RegularExpressions;
+global using System.Linq.Expressions;
 global using DataAccess;
 global using System.Data;
-global using System.IO;
-global using System.Linq;
-global using System.Collections.Generic;
 
 var connection = InfraConfig.GetConnectionString("Accounts");
 var masterConnection = Regex.Replace(connection, @"database=.*", "");
