@@ -1,5 +1,5 @@
 ﻿global using System;
-global using Holism.Infra;
+global using Infra;
 global using System.Text.Json;
 global using System.Dynamic;
 global using System.Net.Http;
