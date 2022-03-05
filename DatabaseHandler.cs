@@ -9,7 +9,7 @@ public class DatabaseHandler : Handler
         foreach(DataRow table in tables.Rows)
         {
             TableName = table[$"Tables_in_{DatabaseName}"].ToString();
-            if (TableName.EndsWith("Views"))
+            if (TableName.EndsWith("Views") && TableName != "Views")
             {
                 new ViewHandler().Handle();
             }
