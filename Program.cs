@@ -10,7 +10,7 @@ Handler.OrganizationPrefix = args[2];
 Handler.Repository = args[3];
 if (databases.Rows.Count == 4)
 {
-    File.WriteAllText(Path.Combine(Handler.Dir, $"NoDatabase"), enumScripts);
+    File.WriteAllText(Path.Combine(Handler.Dir, $"NoDatabase"), "No database yet");
 }
 foreach (DataRow database in databases.Rows)
 {
