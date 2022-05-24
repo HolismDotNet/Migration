@@ -14,16 +14,16 @@ public class TableHandler : Handler
     public void ScriptEnumTable(string tableScript)
     {
         var columns = Regex.Matches(tableScript, @"(?<=^\s*\`)[^`]*", RegexOptions.Multiline).OfType<Match>().Select(i => i.Value).ToList().ToCsv();
-        if (columns == "Id,Guid,Key,Order")
+        if (columns == "Id,Key,Order")
         {
             var enumScripts = @$"
-insert ignore into `{TableName}` (Id, Guid, `Key`, `Order`)
+insert ignore into `{TableName}` (Id, `Key`, `Order`)
 values ";
             var data = Database.Open(MasterConnection).Get(@$"select * from `{DatabaseName}`.`{TableName}`");
             foreach (DataRow row in data.Rows)
             {
                 var query = @$"
-({row["Id"].ToString()}, N'{row["Guid"].ToString()}', '{row["Key"].ToString()}',  {(row.IsNull("Order") ? "null" : row["Order"].ToString())}),";                
+({row["Id"].ToString()}, '{row["Key"].ToString()}',  {(row.IsNull("Order") ? "null" : row["Order"].ToString())}),";                
                 enumScripts += query;
             }
             enumScripts = enumScripts.Trim().Trim(',');
